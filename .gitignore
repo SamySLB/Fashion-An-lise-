@@ -1,0 +1,24 @@
+# Ambiente Python
+venv/
+__pycache__/
+*.pyc
+
+# Dados (não subir datasets brutos)
+data/
+processed/
+
+# Arquivos sensíveis
+.env
+
+# Configurações do sistema
+.DS_Store
+Thumbs.db
+
+# VS Code (opcional)
+.vscode/
+
+# Logs
+*.log
+
+# Arquivos temporários
+*.tmp
