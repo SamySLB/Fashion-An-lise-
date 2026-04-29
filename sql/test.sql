@@ -1,3 +1,4 @@
+USE fashion_db;
 SHOW TABLES;
 DESCRIBE products;
 DESCRIBE sizes;

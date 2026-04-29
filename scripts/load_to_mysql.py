@@ -25,10 +25,10 @@ cursor = conn.cursor()
 #inserir produtos
 for _, row in products_df.iterrows():
     cursor.execute("""
-        INSERT INTO products (name, price, product_type, category)
-        VALUES (%s, %s, %s, %s)
+        INSERT INTO products (name, price, product_type, category,brand)
+        VALUES (%s, %s, %s, %s, %s)
     """, (row['name'],
-          float['price'], 
+          row['price'], 
           row['product_type'],
           row['category'],
           row['brand']
@@ -47,6 +47,9 @@ for _, row in products_df.iterrows():
     conn.commit()
 
 print("Dados inseridos!")
+print(products_df.shape)
+print(sizes_df.shape)
+
 
 cursor.close()
 conn.close()

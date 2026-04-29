@@ -13,7 +13,15 @@ df.columns = df.columns.str.lower()
 
 df.dropna(subset=['price'], inplace=True)
 
+df['price'] = (
+    df['price']
+    .astype(str)
+    .str.replace(',', '.', regex=False)  
+    .str.replace(r'[^0-9.]', '', regex=True) 
+)
+
 df['price'] = pd.to_numeric(df['price'], errors='coerce')
+
 df.dropna(subset=['price'], inplace=True)
 
 #Transformação
@@ -41,7 +49,7 @@ df['category'] = df['product_type']
 #tamanhos de produtos
 
 # garantir string
-df['size'] = df['size'].astype(str)
+df['size'] = df['size'].fillna('unknown').astype(str)
 
 # transformar em lista (caso venha "S,M,L")
 df['sizes_list'] = df['size'].str.split(',')
@@ -101,5 +109,6 @@ print(sizes_df.head())
 
 print(products_df.info())
 print(sizes_df.info())
+print(products_df.shape)
 print("ETL finalizado ")
 
