@@ -65,26 +65,41 @@ df['variety_level'] = df['size_count'].apply(classify_variety)
 # marca
 df['brand'] = df['brand'].astype(str).str.lower()
 
+#tabela produtos
+products_df = df[
+    ['name', 'category', 'product_type', 'price', 'brand']
+].drop_duplicates().reset_index(drop=True)
+#criando produtos_ id
+products_df['product_id'] = products_df.index + 1
 
-df = df[
-    [
-        'name',
-        'category',
-        'product_type',
-        'price',
-        'size',
-        'size_count',
-        'variety_level',
-        'brand'
-    ]
-]
+#tabela sizes
+df['sizes_list'] = df['size'].str.replace(' ', '').str.split(',')
+
+sizes_df = df[['name', 'sizes_list']].explode('sizes_list')
+
+sizes_df.rename(columns={'sizes_list': 'size'}, inplace=True)
+
+#relacionando produtos e sizes
+sizes_df = sizes_df.merge(
+    products_df[['product_id', 'name']],
+    on='name',
+    how='left'
+)
+
+sizes_df = sizes_df[['product_id', 'size']]
+
+#salvando arquivos
+products_path = BASE_DIR / 'processed' / 'products.csv'
+sizes_path = BASE_DIR / 'processed' / 'sizes.csv'
+
+products_df.to_csv(products_path, index=False)
+sizes_df.to_csv(sizes_path, index=False)
 
 
+print(products_df.head())
+print(sizes_df.head())
 
-df.to_csv(processed_path, index=False)
-
-print(df.head())
-print(df.info())
-print(df.describe())
+print(products_df.info())
+print(sizes_df.info())
 print("ETL finalizado ")
 
