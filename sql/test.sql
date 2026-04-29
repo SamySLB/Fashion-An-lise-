@@ -1,3 +1,6 @@
 SHOW TABLES;
 DESCRIBE products;
 DESCRIBE sizes;
+
+SELECT * FROM products LIMIT 5;
+SELECT * FROM sizes LIMIT 5;
